@@ -1,0 +1,135 @@
+Inicio AdeDCacho
+    campo nombre tipo cadena CP
+    campo fecha tipo date(DD/MM/AAAA) CP2
+    campo hora tipo tame(HH:MM:SS) CP3
+    campo puntos tipo numerico
+Fin AdeD
+
+matA[10][10]
+matB[10][10]
+vecA[100]
+
+
+//1.- Usted recibe una matriz llamada A conteniendo nombres de usuarios en forma desordenada 
+// y sin repetidos, debera recorrer el agregado de datos Cacho y cargara la matriz B con los totales
+// correspondientes a cada nombre en la misma posicion.
+
+//2.- Recibe la matriz A y B, vacias y debera cargar la matriz A con el nombre y la matriz B con 
+//el mayor valor de esa persona 
+
+//3.- Recibe la matriz A cargada con Fechas y cargara el vector A con los totales de cada 
+// Fecha
+
+//4.- Recibe el vector A cargado con Nombres y debera cargar la matriz A con los promedios 
+// y solamente podran usar 3 mientras y usara buscara rapida 
+
+Inicio Procedimiento uno
+    F = 0 
+    C = 0
+    varTotal = 0
+    varNombre  
+    Mientras F <= 9
+        Mientras C <= 9 
+            varNombre = matA[F][C]
+            Abrir AdeDCacho
+            Leer AdeDCacho
+            Mientras(NOT AdeDCacho.EOF y AdeDCacho.Nombre <> varNombre)            
+                Leer AdeDCacho
+            Fin Mientras
+
+            Mientras (NOT AdeDCacho.EOF y AdeDCacho.Nombre = varNombre)
+                varTotal = varTotal + AdeDCacho.Puntos
+                Leer AdeDCacho
+            Fin Mientras
+            Cerrar AdeDCacho
+            matB[F][C] = varTotal
+            C = C + 1
+        Fin Mientras
+        C = 0
+        varTotal = 0
+        F = F + 1
+    Fin Mientras
+Fin Procedimiento Uno
+
+Inicio procemiento dos 
+F = 0 
+C = 0
+matA[F][C] = AdeDCacho.Nombre
+matB[F][C] = AdeDCacho.Puntos
+Mientras (NOT AdeDCacho.EOF)
+        Abrir AdeDCacho
+        Leer AdeDCacho 
+        Si matA [F][C] = AdeDCacho.Nombre
+            Si matB[F][C] < AdeDCacho.Puntos
+                matB[F][C] = AdeDCacho.Puntos
+            Fin Si
+        Si no
+            F = F + 1
+            matA[F][C] = AdeDCacho.Nombre
+            matB[F][C] = AdeDCacho.Puntos
+        Si F <= 10
+            F = F + 1
+        Si No
+            F = 0
+            C = C + 1
+        Fin Si
+        Si  C = 10
+            F = 100
+            Cerrar AdeDCacho
+        Fin Si
+Fin Mientras
+
+Inicio Procedimiento tres
+F = 0
+C = 0
+i = 0
+
+Mientras F = 9 
+    Mientras C = 9 
+        Abrir AdeDCacho
+        Leer AdeDCacho
+        Mientras (NOT AdeDCacho.EOF)
+            Si AdeDCacho.Fecha = matA[F][C]
+                vecA[i] = vecA[i] + AdeDCacho.Puntos
+            Fin Si
+            Leer AdeDCacho
+        Fin Mientras
+        Cerrar AdeDCacho
+        C = C + 1
+        i = i + 1
+    Fin Mientras
+    C = 0
+    F = F + 1
+Fin Mientras
+
+Inicio Procedimiento cuatro
+F = 0
+C = 0 
+varPromedio = 0
+var Contador = 0 
+
+
+Abrir AdeDCacho
+Leer AdeDCacho
+    Mientras (NOT AdeDCacho.EOF y AdeDCacho.Nombre <> varNombre)
+        Leer AdeDCacho
+    Fin Mientras
+    Mientras (NOT AdeDCacho.EOF y AdeDCacho.Nombre = varNombre)
+        varPromedio = varPromedio + AdeDCacho.Puntos
+        varContador = varContador + 1
+        Leer AdeDCacho
+    Fin Mientras
+    matA[F][C] = varPromedio / varContador
+    varPromedio = 0
+    varContador = 0
+    Si F <= 10
+        F = F + 1
+    Si No
+        F = 0
+        C = C + 1
+    Fin Si
+    Si  C = 10
+        F = 100
+        Cerrar AdeDCacho
+    Fin Si
+Fin Procedimiento

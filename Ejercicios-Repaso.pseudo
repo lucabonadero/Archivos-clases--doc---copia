@@ -1,0 +1,51 @@
+// ejercicio 1
+
+Inicio Procedimiento uno 
+vecRC[20]
+variable i tipo numerica
+
+    Abrir AdeDMovimientos
+    Leer AdeDMovimientos
+    Mientras (NOT AdeDMovimientos.EOF)
+        vecRC[i] = AdeMovimientos.Fecha
+        i = i + 1
+    Fin Mientras
+    Cerrar AdeDMovimientos
+Fin Procedimiento
+
+// Ejercicio dos
+
+Inicio procemiento dos
+vecRC[20]
+variable i tipo numerica 
+
+    Abrir AdeDMovimientos
+    Leer AdeDMovimientos
+    Mientras (NOT AdeDMovimientos.EOF y AdeDMovimientos.Puntos > 1000)
+        vecRC[i] = AdeMovimientos.Puntos
+        i = i + 1
+        Leer AdeDMovimientos
+    Fin Mientras
+    Cerrar AdeDMovimientos
+Fin Procedimiento
+
+// Ejercicio tres
+Inicio Procedimiento tres
+vecRC[20]
+variabe i tipo numerica
+variable varCodigo tipo numerica
+
+        Abrir AdeDMovimientos
+        Leer AdeDMovimientos
+        varCodigo = txtCodigo.ToString
+        Mientras (NOT AdeDMovimientos.EOF y AdeDMovimientos.Codigo = varCodigo)            
+            vecRC[i] = AdeMovimientos.Puntos
+            i = i + 1
+            Leer AdeDMovimientos
+        Fin Mientras
+        Cerrar AdeDMovimientos
+Fin Procedimiento
+
+// Ejercicio cuatro
+
+Inicio Procedimiento cuatro
