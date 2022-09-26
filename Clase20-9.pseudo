@@ -1,0 +1,82 @@
+AdeDCacho
+{
+campo Clave tipo numerico
+campo Nombre tipo cadena
+campo fecha tipo date [DD/MM/AAA]
+campo hora tipo time [HH:MM:SS]
+campo puntos tipo numerico
+}
+
+vecA[100] tipo cadena
+matB[10][10] tipo cadena
+
+// usted debera recorrer el agregado de datos Cacho de la siguiente manera
+// la matriz B esta vacia y debera cargarla con los nombre sin repetir 
+// y para cada nombre para cada posicion del vector A debera cargar la calificiacion 
+
+// Si el promedio supera los 10.000 y el mayor valor supera los 8000 se considera excelente
+// Si el promedio supera los 8000 y el mayor valor supera los 5000 se considera bueno
+// Si el promedio y el maximo valor es 0 se considerara malo
+// solo se puede usar un solo mientras
+Inicio Procedimiento Carga 
+variable F = 0 tipo numerica
+variable C = 0 tipo numerica
+variable i = 0 tipo numerica
+variable varPromedio = 0 tipo numerico
+variable varMayor = 0 tipo numerica
+variable Puntos tipo = 0 tipo numerica 
+
+    Abrir AdeDCacho
+    Leer AdeDCacho
+    matB[F][C] = AdeDCacho.Nombre 
+    Mientras (NOT AdeDCacho.EOF e i <=99)
+        Si matB[F][C] = AdeDCacho.Nombre
+            i++
+            Si F <= 10
+                F = F + 1
+            Si No
+                F = 0
+                C = C + 1
+            Fin Si
+            Si  C = 10
+                F = 100
+        Si No
+                varPuntos = varPuntos + AdeDCacho.Puntos
+                varContador = varContador + 1
+            Fin Si
+            varPromedio = varPuntos / varContador
+            Si varMayor < AdeDCacho.Puntos  
+                varMayor = AdeDCacho.Puntos
+            Fin Si
+            Segun Sea 
+                Cuando sea (varPromedio > 10000 y varMayor > 8000 )
+                    vecA[i] = "Excelente"
+                Cuando sea (varPromedio > 8000 y varMayor > 5000 )
+                    vecA[i] = "Bueno"
+                Cuando sea (varPromedio = 0 y varMayor = 0  )
+                    vecA[i] = "Malo"
+            Fin Segun Sea
+            i++
+            varMayor = 0
+            varPromedio = 0
+            varPuntos = 0
+
+            Si F <= 10
+                F = F + 1
+            Si No
+                F = 0
+                C = C + 1
+            Fin Si
+            Si  C = 10
+                F = 100
+                Cerrar AdeDCacho
+            Fin Si
+        Fin Si
+        Leer AdeDCacho
+    Fin mientras  
+    Cerrar AdeDCacho
+Fin Procedimiento
+
+
+
+    

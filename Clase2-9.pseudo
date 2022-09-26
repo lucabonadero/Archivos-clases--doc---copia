@@ -1,0 +1,145 @@
+// Grilla, apareo con vectores
+Estructra vector vecA[5] tipo cadena;
+grlMostrar [Fg][4]
+
+Procedimiento Carga de Grilla
+    variable Fg tipo numerica = 1
+    grlMostrar [0][1] = "Nombre"
+    grlMostrar [0][2] = "Fecha"
+    grlMostrar [0][3] = "Hora"
+    grlMostrar [0][4] = "Saldo"
+    Abrir AdeDSaldo
+    Leer AdeDSaldo
+    Mientras (Not AdeSaldo.EOF)
+        grlMostrar [Fg][1] = AdeDSaldo.Nombre
+        grlMostrar [Fg][2] = AdeDSaldo.Fecha
+        grlMostrar [Fg][3] = AdeDSaldo.Hora
+        grlMostrar [Fg][4] = AdeDSaldo.Saldo
+        Fg = Fg + 1
+        Leer AdeDSaldo
+    Fin Mientras
+Fin Procedimiento
+
+// Ingresar un nombre y listar movimientos
+Inicio Procedimiento btnConsulta = "Click"
+        variable varNombre tipo cadena = txtNombre.Text
+        variable Fg tipo numerica = 1
+        grlMostrar [0][1] = "Nombre"
+        grlMostrar [0][2] = "Fecha"
+        grlMostrar [0][3] = "Hora"
+        grlMostrar [0][4] = "Saldo"
+        Abrir AdeDSaldo
+        Leer AdeDSaldo
+        Mientras (Not AdeSaldo.EOF y AdeDSaldo <> varNombre)
+            Leer AdeDSaldo
+        Fin Mientras
+        Si AdeDSaldo.EOF = verdadero Entonces
+            Mensaje("El usuario no existe")
+        Si no    
+            Mientras (Not AdeDsaldo.EOF y AdeDSaldo = varNombre)
+                grlMostrar [Fg][1] = AdeDSaldo.Nombre
+                grlMostrar [Fg][2] = AdeDSaldo.Fecha
+                grlMostrar [Fg][3] = AdeDSaldo.Hora
+                grlMostrar [Fg][4] = AdeDSaldo.Saldo
+                Leer AdeDSaldo
+                Fg = Fg + 1
+            Fin Mientras
+        Fin Si
+            Cerrar AdeDSaldo
+Fin Procedimiento
+
+// Carga de grilla con vector
+Procedimiento Carga Grilla con vector/AdeD
+    variable Fg tipo numerica = 1
+    variable i tipo numerica = 0
+    grlMostrar [0][1] = "Nombre"
+    grlMostrar [0][2] = "Fecha"
+    grlMostrar [0][3] = "Hora"
+    grlMostrar [0][4] = "Saldo"
+    Mientras i <= 4
+        Abrir AdeDSaldo
+        Leer AdeDSaldo
+        Mientras (Not AdeDSaldo.EOF y AdeDSaldo.Nombre <> vecA[i])
+            Leer AdeDSaldo
+        Fin Mientras
+        Mientras (Not AdeDSaldo.EOF y AdeDSaldo.Nombre == vecA[i])
+            grlMostrar [Fg][1] = AdeDSaldo.Nombre
+            grlMostrar [Fg][2] = AdeDSaldo.Fecha
+            grlMostrar [Fg][3] = AdeDSaldo.Hora
+            grlMostrar [Fg][4] = AdeDSaldo.Saldo
+            Leer AdeDSaldo
+            Fg = Fg + 1
+        Fin Mientras
+        Cerrar AdeDSaldo
+        i = i + 1
+    Fin Mientras
+Fin Procedimiento
+
+// Usted recorrera el vecFecha y mostrar en un agrilla el total por fecha
+Procedimiento Carga Grilla con vector/AdeD
+    variable Fg tipo numerica = 1
+    variable i tipo numerica = 0
+    variable varTotal tipo numerico
+    grlMostrar [0][1] = "Fecha"
+    grlMostrar [0][2] = "Total"
+    Mientras i <= 19
+        Abrir AdeDSaldo
+        Leer AdeDSaldo
+        Mientras (Not AdeDSaldo.EOF)
+            Si AdeDSaldo.Fecha == vecFecha[i] Entonces
+                varTotal = varTotal + AdeDSaldo.Saldo
+            Fin Si
+            Leer AdeDSaldo
+        Fin Mientras
+        Cerrar AdeDSaldo
+        grlMostrar[Fg][1] = vecFecha[i]
+        grlMostrar[Fg][2] = varTotal
+        varTotal = 0
+        Fg = Fg + 1
+        i = i + 1
+    Fin Mientras
+       
+// Ingresamos una fecha, un nombre y un monto minimo 
+// debo obtener el promedio de la seleccion y
+// el promedio general
+
+// Busqueda rapida por nombre y un si para la fecha y el monto
+
+Inicio Procedimiento
+    variable varNombre tipo cadena = txtNombre.Text
+    variable varFecha tipo date[DD/MM/AAAA] = txtFecha.Text
+    variable Limite tipo numerico = txtLimite.Text
+    variable varTotal tipo numerica
+    variable varContar tipo numerica
+    variable varPromedio tipo numerica
+    Abrir AdeDSaldo
+    Leer AdeDSaldo
+    Mientras (Not AdeDSaldo.EOF y AdeDSaldo.Nombre <> varNombre)
+        Leer AdeDSaldo
+    Fin Mientras
+    Mientras (Not AdeDSaldo.EOF y AdeDSaldo.Nombre == varNombre)
+        Si AdeDSaldo.Fecha == varFecha y AdeDSaldo.Saldo => Limite Entonces
+            varTotal = varTotal + AdeDSaldo.Saldo
+            varContar = varContar + 1
+        Fin Si
+        Leer AdeDSaldo
+    Fin Mientras
+    Cerrar AdeDSaldo
+    varPromedio = varTotal / varContar
+    lblPromedio.Text = varPromedio.ToString
+    lblTotal.Text = varTotal.ToString
+    varPromedio; varTotal; varContar = 0
+    Abrir AdeDSaldo
+    Leer AdeDSaldo
+    Mientras (Not AdeDSaldo.EOF)
+        varTotal = varTotal + AdeDSaldo.Saldo
+        varContar = varContar + 1
+        Leer AdeDSaldo
+    Fin Mientras
+    Cerrar AdeDSaldo
+    lblTotalGeneral.Text = VarTotal.ToString
+    varPromedio = varTotal / varContar
+    lblPromedioGeneral.Text = varPromedio.ToString
+Fin Procedimiento
+        
+       

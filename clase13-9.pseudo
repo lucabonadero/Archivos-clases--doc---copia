@@ -1,0 +1,61 @@
+Inicio AdeDMov
+    campo nombre tipo cadena CP
+    campo fecha tipo date(DD/MM/AAAA) CP2
+    campo hora tipo tame(HH:MM:SS) CP3
+    campo saldo tipo numerico
+Fin AdeD
+
+vector vecA[100]
+vector vecB[100]
+vector matA[10][10]
+
+// usted recibe el vecA cargado con 100 nombres, no hay repetidos,
+// recorrera el AdeDMov y cargara el vecB con el total de puntos para cada nombre
+
+// Reciben los vectores a y b vacios, debera recorrer el adedmov y debera cargar en el 
+// vector a el nombre y en el vec b en la posicon que le corresponda el mayor valor
+// obtenido
+
+
+
+Inicio procedimiento Uno
+variable intipo numerica
+Mientras (i < 99)
+    Abrir AdeDMov
+    Leer AdeDMov
+    Mientras (NOT AdeDMov.EOF & AdeDMov.Nombre <> vecA[i])
+        Leer AdeDMov
+    Fin Mientras 
+    Mientras (NOT AdeDMov.EOF y AdeDMov.Nombre = vecA[i] )
+        vecB[i] = AdeDMov.Saldo + vecB[i]
+        Leer AdeDMov
+    Fin Mientras
+    Cerrar AdeDMov
+    i++
+Fin
+
+Inicio procedimiento Dos
+variable i tipo numerica
+Abrir AdeDMov
+Leer AdeDMov
+Si (NOT AdeDMov.EOF) entonces
+    vecA[i] = AdeDMov.Nombre
+    vecB[i] = AdeDMov.Saldo
+Fin si 
+Mientras (NOT AdeDMov.EOF)
+    Si i <= 99
+        Si AdeDMov.Nombre = vecA[i]
+            Si AdeDMov.Saldo > vecB[i]
+                vecB[i] = AdeDMov.Saldo
+            Fin si 
+        Si no 
+            i++ 
+            vecA[i] = AdeDMov.Nombre 
+            vecB[i] = AdeDMov. Saldo
+        Fin si 
+    Fin Si
+    Leer AdeDMov
+Fin Mientras
+Fin Oricedimiento
+
+

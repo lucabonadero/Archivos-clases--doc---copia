@@ -1,0 +1,75 @@
+Inicio Programa CARC
+    variable nombreuno tipo cadena
+    variable nombredos tipo cadena
+    variable promediouno tipo numerica
+    variable promediodos tipo numerica
+    variable cuentauno tipo numerica
+    variable cuentados tipo numerica
+    variable varmayor tipo numerica
+    variable varmenor tipo numerica
+    Inicio Procedimiento Busquedauno
+        Abrir aded saldo
+        Leer aded saldo
+        Mientras (not saldo.eof & not saldo.nombre <> nombreuno)
+            Leer aded saldo 
+        Fin Mientras
+        Si Saldo.eof = verdadero entonces
+            Mensaje("el cliente, no existe")
+        Si no
+            Mientras adedsaldo.nombre = nombreuno
+                cuentauno = cuentauno + 1
+                varmayor = varmayor + adedsaldo.monto 
+                leer adedsaldo
+            Fin mientras
+        Fin Si
+        cerrar aded saldo
+    Fin Procemiento
+
+    Inicio Procedimiento busquedados
+         abrir adedsaldo
+         Leer adedsaldo
+         Mientras ( not adedsaldo.eof y adedsaldo.nombre <> nombredos)
+            Leer adedsaldo
+         Fin Mientras
+         Si adedsaldo.eof = verdadero entonces
+            mensaje("el cliente nombredos no existe")
+            cerrar adedsaldo
+        Si no 
+            mientras adedsaldo.nombre = nombredos 
+                cuentados = cuentados + 1
+                varmenor = varmenor + adedsaldo.monto
+                leer adedsaldo
+            fin Mientras
+        Fin si
+        cerrar adedsaldo
+    Fin Procedimiento
+ 
+    Inicio procedimiento Calculo
+        promediouno = varmayor / cuentauno 
+        promediodos = varmenor / cuentados
+        Si varmayor >= varmenor entonces
+            txtnombre1.text = nombreuno
+            txtnombre2.text = nombredos
+            lblsaldo1.text = varmayor.tostring
+            lblsaldo2.text = varmenor.tostring
+            lblpromediouno.text = promediouno.tostring
+            lblpromediodos.text = promediodos.tostring
+        Si no
+        txtnombre1.text = nombredos
+        txtnombre2.text = nombreuno
+        lblsaldo1.text = varmenor.tostring
+        lblsaldo2.text = varmayor.tostring
+        lblpromediouno.text = promediodos.tostring
+        lblpromediodos = promediouno.tostring
+        Fin Si
+    Fin procedimiento 
+    Inicio procedimiento btnaceptar.click
+        nombreuno = txtnombre1.text
+        nombredos = txtnombre2.text
+        Procedimiento Busqueda uno
+        Procedimiento Busqueda dos
+        Procedimiento Calculo
+
+    Fin procedimiento
+Fin Programa
+

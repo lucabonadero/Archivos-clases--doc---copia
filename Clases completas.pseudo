@@ -1,0 +1,480 @@
+// Declaracion de la base en formulario
+Inicio agregado de datos listado
+		Campo Nombre Tipo texto [30]
+		Campo Sueldo Tipo money [7]
+		Campo Fecha Tipo date [dd/mm/aaaa]
+		Campo Calificacion Tipo texto [2]
+	Fin agregado de datos
+
+// Considerar a recorrer los archivos / Ciclo de vida
+	Abrir "Data Base.txt"
+	Leer Listado
+	Mientras
+		Leer Agregado de datos
+	Fin Mientras
+	Cerrar
+
+// Recorrido de la base
+
+Inicio Procedimiento Suma
+		variable tipo numerica varTotal
+		Abrir agdd Listado 
+		Leer agdd Listado 
+		Mientras(NOT listado.EOF)
+			Mientras(NOT listado.EOF)
+			varTotal = varTotal + agdd Listado.Sueldo
+			Leer agdd Listado
+		Fin Mientras
+		Cerrar agdd listado
+		lblTotal.texto = varTotal.toString
+Fin Procedimiento
+
+// Ciclo de vida del archivo de datos
+
+Abrir AdeDSaldo
+	Leer // Equivale a i = 0 se posiciona sobre el primer registro
+	Mientras <> EOF // Si es distinto al end of file
+		Leer // Equivalente al i++
+	Fin Mientras
+	Cerrar
+
+// Ejemplo 
+Inicio Programa Banco
+		Inicio AdeDSaldos
+			Campo Nombre tipo Texto [35]CP3
+			Campo Fecha tipo Date [DD/MM/AAAA]CP
+			Campo Hora tipo Time [HH:MM:SS:MLS]CP2
+			Campo Saldo tipo Numerico [10]
+		Fin AdeD 
+	
+		Procedimiento Suma
+			Variable varTotal numerica = Ø 
+			Abrir AdeDSaldos
+			Leer AdeDSaldos
+			Mientras (NOT AdeDSaldos.EOF)
+				varTotal = varTotal + AdeDSaldos.Saldo
+				Leer AdeDSaldos
+			Fin Mientras
+			Cerrar AdeDSaldos
+		Fin Procedimiento
+		
+		Inicio Procedimiento btnCalcular.Click
+			Variable varNombre tipo Texto[35] = txtNombre.Text
+			Variable varTotal tipo Numerico = Ø
+			Abrir AdeDSaldos 
+			Leer AdeDSaldos
+			Mientras (NOT AdeDSaldos.EOF)
+				Si varNombre = AdeDSaldos.Nombre
+					varTotal = varTotal + AdeDSaldos.Saldo
+				Fin Si
+				Leer AdeDSaldos
+			Fin Mientras
+			Cerrar AdeDSaldos
+			lblSaldo.Text = varTotal.ToString
+		Fin de Procedimiento
+	Fin Programa
+
+// Busqueda Mayor
+
+Inicio Procedimiento MayorMonto
+			Variable varAuxiliar tipo numerica = Ø
+			Abrir AdeDSaldos
+			Leer AdeDSaldos
+			Mientras (NOT AdeDSaldos.EOF)
+				Si AdeDSaldos.Saldo > varAuxiliar
+					varAuxiliar = AdeDSaldos.Saldo 
+				Fin Si
+				Leer AdeDSaldos
+			Fin Mientras
+			Cerrar AdeDSaldos
+			lblMayor.Text = varAuxiliar.ToString
+			Fin de Procedimiento
+
+// Busqueda con datos ordenados / Fecha
+Inicio Procedimiento btnRC.Click
+		Variable varDesde tipo Date[DD/MM/AAAA] = txtDesde.Text 
+		Variable varHasta tipo Date[DD/MM/AAAA] = txtHasta.Text
+		Variable varTotal tipo Numerica 
+		Abrir AdeDSaldos
+		Leer AdeDSaldos
+		Mientras (NOT AdeDSaldos.EOF & AdeDSaldos.Fecha < varDesde)
+			Leer AdeDSaldos
+		Fin Mientras
+		Mientras (NOT AdeDSaldos.EOF & AdeDSaldos.Fecha <= varHasta)
+			varTotal = varTotal + AdeDSaldos.Saldo
+			Leer AdeDSaldos
+		Fin Mientras
+		Cerrar AdeDSaldos
+		lblTotal.Text = varTotal.ToString
+Fin Procedimiento
+
+// vector con base
+Estructura Vector RC[100] tipo Numerico
+
+Inicio Procedimiento carga Vector
+	Variable i tipo numerica
+	Abrir AdeDSaldos
+	Leer AdeDSaldos 
+	Mientras (Not AdeDSaldos.EOF & i <= 99)
+		RC(i) = AdeDSaldos.Saldos
+		i = i + 1
+		Leer AdeDSaldos
+	Fin Mientras
+	Cerrar AdeDSaldos
+Fin Procedimiento
+
+// Cargara un vector llamado A con los valores que correspondan al nombre elegido
+// y las fechas seleccionadas, utilizara busqueda rapida
+
+Estructura tipo Vector A[100] tipo numerico
+
+Inicio Procedimiento Cargar
+	Variable i tipo numerica
+	variable varNombre = txtNombre.Text
+	Variable varDesde tipo Date[DD/MM/AAAA] = txtDesde.Text 
+	Variable varHasta tipo Date[DD/MM/AAAA] = txtHasta.Text
+	Abrir AdeDSaldos 
+	Leer AdeDSaldos
+	Mientras (NOT AdeDSaldos.EOF & AdeDSaldos.Fecha < varDesde)
+		Leer AdeDSaldos
+	Fin Mientras
+	Mientras (Not AdeDSaldos.EOF & AdeDSaldos.Fecha <= varHasta & i <= 99)
+		Si varNombre = AdeDSaldos.Nombre entonces
+			A(i) = AdeDSaldos.Saldos
+			i = i + 1
+		Fin Si
+	Leer AdeDSaldos
+	Fin Mientras
+	Cerrar AdeDSaldos
+Fin Procedimiento
+
+///////////////////////////////////////////////////////////////////////////////////////
+Inicio Programa CARC
+    variable nombreuno tipo cadena
+    variable nombredos tipo cadena
+    variable promediouno tipo numerica
+    variable promediodos tipo numerica
+    variable cuentauno tipo numerica
+    variable cuentados tipo numerica
+    variable varmayor tipo numerica
+    variable varmenor tipo numerica
+    Inicio Procedimiento Busquedauno
+        Abrir aded saldo
+        Leer aded saldo
+        Mientras (not saldo.eof & not saldo.nombre <> nombreuno)
+            Leer aded saldo 
+        Fin Mientras
+        Si Saldo.eof = verdadero entonces
+            Mensaje("el cliente, no existe")
+        Si no
+            Mientras adedsaldo.nombre = nombreuno
+                cuentauno = cuentauno + 1
+                varmayor = varmayor + adedsaldo.monto 
+                leer adedsaldo
+            Fin mientras
+        Fin Si
+        cerrar aded saldo
+    Fin Procemiento
+
+    Inicio Procedimiento busquedados
+         abrir adedsaldo
+         Leer adedsaldo
+         Mientras ( not adedsaldo.eof y adedsaldo.nombre <> nombredos)
+            Leer adedsaldo
+         Fin Mientras
+         Si adedsaldo.eof = verdadero entonces
+            mensaje("el cliente nombredos no existe")
+            cerrar adedsaldo
+        Si no 
+            mientras adedsaldo.nombre = nombredos 
+                cuentados = cuentados + 1
+                varmenor = varmenor + adedsaldo.monto
+                leer adedsaldo
+            fin Mientras
+        Fin si
+        cerrar adedsaldo
+    Fin Procedimiento
+ 
+    Inicio procedimiento Calculo
+        promediouno = varmayor / cuentauno 
+        promediodos = varmenor / cuentados
+        Si varmayor >= varmenor entonces
+            txtnombre1.text = nombreuno
+            txtnombre2.text = nombredos
+            lblsaldo1.text = varmayor.tostring
+            lblsaldo2.text = varmenor.tostring
+            lblpromediouno.text = promediouno.tostring
+            lblpromediodos.text = promediodos.tostring
+        Si no
+        txtnombre1.text = nombredos
+        txtnombre2.text = nombreuno
+        lblsaldo1.text = varmenor.tostring
+        lblsaldo2.text = varmayor.tostring
+        lblpromediouno.text = promediodos.tostring
+        lblpromediodos = promediouno.tostring
+        Fin Si
+    Fin procedimiento 
+    Inicio procedimiento btnaceptar.click
+        nombreuno = txtnombre1.text
+        nombredos = txtnombre2.text
+        Procedimiento Busqueda uno
+        Procedimiento Busqueda dos
+        Procedimiento Calculo
+
+    Fin procedimiento
+Fin Programa
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+// Grilla, apareo con vectores
+Estructra vector vecA[5] tipo cadena;
+grlMostrar [Fg][4]
+
+Procedimiento Carga de Grilla
+    variable Fg tipo numerica = 1
+    grlMostrar [0][1] = "Nombre"
+    grlMostrar [0][2] = "Fecha"
+    grlMostrar [0][3] = "Hora"
+    grlMostrar [0][4] = "Saldo"
+    Abrir AdeDSaldo
+    Leer AdeDSaldo
+    Mientras (Not AdeSaldo.EOF)
+        grlMostrar [Fg][1] = AdeDSaldo.Nombre
+        grlMostrar [Fg][2] = AdeDSaldo.Fecha
+        grlMostrar [Fg][3] = AdeDSaldo.Hora
+        grlMostrar [Fg][4] = AdeDSaldo.Saldo
+        Fg = Fg + 1
+        Leer AdeDSaldo
+    Fin Mientras
+Fin Procedimiento
+
+// Ingresar un nombre y listar movimientos
+Inicio Procedimiento btnConsulta = "Click"
+        variable varNombre tipo cadena = txtNombre.Text
+        variable Fg tipo numerica = 1
+        grlMostrar [0][1] = "Nombre"
+        grlMostrar [0][2] = "Fecha"
+        grlMostrar [0][3] = "Hora"
+        grlMostrar [0][4] = "Saldo"
+        Abrir AdeDSaldo
+        Leer AdeDSaldo
+        Mientras (Not AdeSaldo.EOF y AdeDSaldo <> varNombre)
+            Leer AdeDSaldo
+        Fin Mientras
+        Si AdeDSaldo.EOF = verdadero Entonces
+            Mensaje("El usuario no existe")
+        Si no    
+            Mientras (Not AdeDsaldo.EOF y AdeDSaldo = varNombre)
+                grlMostrar [Fg][1] = AdeDSaldo.Nombre
+                grlMostrar [Fg][2] = AdeDSaldo.Fecha
+                grlMostrar [Fg][3] = AdeDSaldo.Hora
+                grlMostrar [Fg][4] = AdeDSaldo.Saldo
+                Leer AdeDSaldo
+                Fg = Fg + 1
+            Fin Mientras
+        Fin Si
+            Cerrar AdeDSaldo
+Fin Procedimiento
+
+// Carga de grilla con vector
+Procedimiento Carga Grilla con vector/AdeD
+    variable Fg tipo numerica = 1
+    variable i tipo numerica = 0
+    grlMostrar [0][1] = "Nombre"
+    grlMostrar [0][2] = "Fecha"
+    grlMostrar [0][3] = "Hora"
+    grlMostrar [0][4] = "Saldo"
+    Mientras i <= 4
+        Abrir AdeDSaldo
+        Leer AdeDSaldo
+        Mientras (Not AdeDSaldo.EOF y AdeDSaldo.Nombre <> vecA[i])
+            Leer AdeDSaldo
+        Fin Mientras
+        Mientras (Not AdeDSaldo.EOF y AdeDSaldo.Nombre == vecA[i])
+            grlMostrar [Fg][1] = AdeDSaldo.Nombre
+            grlMostrar [Fg][2] = AdeDSaldo.Fecha
+            grlMostrar [Fg][3] = AdeDSaldo.Hora
+            grlMostrar [Fg][4] = AdeDSaldo.Saldo
+            Leer AdeDSaldo
+            Fg = Fg + 1
+        Fin Mientras
+        Cerrar AdeDSaldo
+        i = i + 1
+    Fin Mientras
+Fin Procedimiento
+
+// Usted recorrera el vecFecha y mostrar en un agrilla el total por fecha
+Procedimiento Carga Grilla con vector/AdeD
+    variable Fg tipo numerica = 1
+    variable i tipo numerica = 0
+    variable varTotal tipo numerico
+    grlMostrar [0][1] = "Fecha"
+    grlMostrar [0][2] = "Total"
+    Mientras i <= 19
+        Abrir AdeDSaldo
+        Leer AdeDSaldo
+        Mientras (Not AdeDSaldo.EOF)
+            Si AdeDSaldo.Fecha == vecFecha[i] Entonces
+                varTotal = varTotal + AdeDSaldo.Saldo
+            Fin Si
+            Leer AdeDSaldo
+        Fin Mientras
+        Cerrar AdeDSaldo
+        grlMostrar[Fg][1] = vecFecha[i]
+        grlMostrar[Fg][2] = varTotal
+        varTotal = 0
+        Fg = Fg + 1
+        i = i + 1
+    Fin Mientras
+       
+// Ingresamos una fecha, un nombre y un monto minimo 
+// debo obtener el promedio de la seleccion y
+// el promedio general
+
+// Busqueda rapida por nombre y un si para la fecha y el monto
+
+Inicio Procedimiento
+    variable varNombre tipo cadena = txtNombre.Text
+    variable varFecha tipo date[DD/MM/AAAA] = txtFecha.Text
+    variable Limite tipo numerico = txtLimite.Text
+    variable varTotal tipo numerica
+    variable varContar tipo numerica
+    variable varPromedio tipo numerica
+    Abrir AdeDSaldo
+    Leer AdeDSaldo
+    Mientras (Not AdeDSaldo.EOF y AdeDSaldo.Nombre <> varNombre)
+        Leer AdeDSaldo
+    Fin Mientras
+    Mientras (Not AdeDSaldo.EOF y AdeDSaldo.Nombre == varNombre)
+        Si AdeDSaldo.Fecha == varFecha y AdeDSaldo.Saldo => Limite Entonces
+            varTotal = varTotal + AdeDSaldo.Saldo
+            varContar = varContar + 1
+        Fin Si
+        Leer AdeDSaldo
+    Fin Mientras
+    Cerrar AdeDSaldo
+    varPromedio = varTotal / varContar
+    lblPromedio.Text = varPromedio.ToString
+    lblTotal.Text = varTotal.ToString
+    varPromedio; varTotal; varContar = 0
+    Abrir AdeDSaldo
+    Leer AdeDSaldo
+    Mientras (Not AdeDSaldo.EOF)
+        varTotal = varTotal + AdeDSaldo.Saldo
+        varContar = varContar + 1
+        Leer AdeDSaldo
+    Fin Mientras
+    Cerrar AdeDSaldo
+    lblTotalGeneral.Text = VarTotal.ToString
+    varPromedio = varTotal / varContar
+    lblPromedioGeneral.Text = varPromedio.ToString
+Fin Procedimiento
+
+///////////////////////////////////////////////////////////////////////////////////
+
+Recorrera el AdeD movimientos e ira cargando con los nombres la matriz A
+
+Inicio Procedimiento CargarMatrizA
+    variable F tipo numerica
+    variable C tipo numerica
+    Abrir AdeDMovimientos
+        Leer AdeDMovimientos
+    Mientras (NOT AdeDMovimientos.EOF y C <=3)
+        Mientras(NOT AdeDMovimientos.EOF y F <=3)
+            matA[F,C] = AdeDMovimientos.Nombre
+            F = F + 1
+            Leer AdeDMovimientos
+        Fin Mientras
+        C = C + 1
+        F = 0
+    Fin Mientras
+    Cerrar AdeDMovimientos
+Fin Procedimiento
+
+// Usted debera cargar en la matriz con los montos que se encuentren entre dos fechas
+// y su valor supere los $1000 
+
+Inicio Procedimiento Carga Matriz 2
+    Variable varDesde tipo Date[DD/MM/AAAA] = txtDesde.Text 
+	Variable varHasta tipo Date[DD/MM/AAAA] = txtHasta.Text
+    Variable F tipo numerica
+    Variable C tipo numerica
+    Abrir AdeDMovimientos
+    Leer AdeDMovimientos
+    Mientras(NOT AdeDMovimientos.EOF y & AdeDMovimientos.Fecha < varDesde)
+		Leer AdeDMovimientos
+	Fin Mientras
+	Mientras (NOT AdeDMovimientos.EOF & AdeDMovimientos.Fecha <= varHasta y C <=3)
+            Mientras(NOT AdeMovimientos.EOF & AdeDMovimientos.Fecha varHasta F <=3)
+                Si (AdeDMovimientos.Monto >= 1000) entonces
+                    matA[F,C] = AdeDMovimientos.Monto
+                    F = F + 1
+                Fin Si
+                Leer AdeDMovimientos
+            Fin mientras
+        F = 0
+        C = C + 1
+	Fin Mientras
+    Cerrar AdeDMovimientos
+Fin Procedimiento
+
+// Usted recibe una matriz cargada con nombres y debera cargar otra matriz de 4x4 con los
+// totales facturados a cada uno de los elementos de la matriz A
+
+Inicio Procedimiento Carga Matriz 3
+    Variable F tipo numerica
+    Variable C tipo numerica
+    Mientras (F <= 3)
+        Mientras (C <= 3)
+            Abrir AdeDMovimientos
+            Leer AdeDMovimientos
+            Mientras (NOT AdeDMovimientos.EOF)
+                Si (AdeDMovimientos.Nombre = matA[F,C]) entonces
+                    matB[F,C] = matB[F,C] + AdeDMovimientos.Monto
+                Fin Si
+                Leer AdeDMovimientos
+            Fin Mientras
+            Cerar AdeDMovimientos
+            C = C + 1
+        Fin Mientras
+        C = 0
+        F = F + 1
+    Fin mientras
+Fin Procedimiento
+
+// Usted recibe un vector llamado vecRC de 100 lugares y una matriz llamada MatC de 10x10
+// el vector se encuentra cargado con fechas y usted debera cargar la matriz con 
+// el total de puntos para cada fecha registrada en el vector
+
+Inicio Procedimiento carga de matriz 
+vecRC[100]
+MatC[10,10]
+    Variable F tipo numerica
+    Variable C tipo numerica
+    Variable I tipo numerica
+    Variable varFecha tipo Date[DD/MM/AAAA]
+    Mientras (I <= 99)
+        varFecha = vecRC[I]
+        Abrir AdeDMovimientos
+        Leer AdeDMovimientos
+        Mientras (NOT AdeDMovimientos.EOF)
+            Si (AdeDMovimientos.Fecha = varFecha) entonces
+                MatC[F,C] = MatC[F,C] + AdeDMovimientos.Puntos
+            Fin Si
+            Leer AdeDMovimientos
+        Fin Mientras
+        Cerrar AdeDMovimientos
+        I = I + 1
+        C = C + 1
+        Si (C = 10) entonces
+            C = 0
+            F = F + 1
+        Fin Si
+    Fin Mientras
+Fin Procedimiento
+    
+//////////////////////////////////////////////////////////////////////////////
+
+        
+       
+
